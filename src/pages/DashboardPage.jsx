@@ -6,6 +6,7 @@ import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import ProfileModal from '../components/modals/ProfileModal';
 import AdmissionsGuide from '../components/sections/AdmissionsGuide';
+import DocumentUpload from '../components/sections/DocumentUpload';
 
 const DashboardPage = () => {
   const { user, logout } = useAuth();
@@ -26,6 +27,15 @@ const DashboardPage = () => {
 
   const handleOpenSection = (section) => {
     setSelectedSection(section);
+  };
+
+  const handleUploadComplete = () => {
+    // Simulate auto-filling some sections
+    setSections(sections.map(s =>
+      ['personal', 'education', 'languages'].includes(s.id)
+        ? { ...s, completed: true }
+        : s
+    ));
   };
 
   return (
@@ -52,6 +62,9 @@ const DashboardPage = () => {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Document Upload Section */}
+        <DocumentUpload onUploadComplete={handleUploadComplete} />
+
         {/* Progress Banner */}
         <div className="bg-gradient-to-r from-primary-blue to-accent-blue rounded-2xl p-6 sm:p-8 mb-8 text-white">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
