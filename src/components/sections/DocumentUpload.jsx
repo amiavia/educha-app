@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { HiOutlineCloudArrowUp, HiOutlineDocumentText, HiOutlineCheckCircle, HiOutlineSparkles, HiOutlineXMark } from 'react-icons/hi2';
 import Button from '../ui/Button';
+import StudentCard from './StudentCard';
 
 const DocumentUpload = ({ onUploadComplete }) => {
   const [uploadedFiles, setUploadedFiles] = useState([]);
@@ -47,59 +48,57 @@ const DocumentUpload = ({ onUploadComplete }) => {
 
   return (
     <>
-      {/* Prominent Upload Banner */}
-      <div className="bg-gradient-to-r from-primary-gold via-yellow-400 to-primary-gold rounded-2xl p-1 mb-8 shadow-lg">
-        <div className="bg-white rounded-xl p-6 sm:p-8">
-          <div className="flex flex-col md:flex-row items-start md:items-center gap-6">
-            {/* Icon & Text */}
-            <div className="flex-1">
-              <div className="flex items-center gap-3 mb-3">
-                <div className="bg-gradient-to-br from-primary-gold to-yellow-500 text-white rounded-full p-3">
-                  <HiOutlineSparkles size={32} />
-                </div>
-                <div>
-                  <h2 className="text-2xl font-bold text-gray-900">Upload Your Documents</h2>
-                  <p className="text-sm text-primary-gold font-semibold">Create Your Unique Student Card Instantly</p>
-                </div>
+      {/* Split Layout: Upload Section + Student Card */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+        {/* Left: Upload Section */}
+        <div className="bg-gradient-to-r from-primary-gold via-yellow-400 to-primary-gold rounded-2xl p-1 shadow-lg">
+          <div className="bg-white rounded-xl p-6">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="bg-gradient-to-br from-primary-gold to-yellow-500 text-white rounded-full p-3">
+                <HiOutlineSparkles size={28} />
               </div>
-
-              <p className="text-gray-700 mb-3">
-                Upload your academic transcripts, certificates, CV, or any documents – we'll automatically extract the information and create your complete student profile.
-              </p>
-
-              <div className="flex flex-wrap gap-2 mb-3">
-                <span className="text-xs bg-blue-50 text-primary-blue px-3 py-1 rounded-full font-medium">
-                  ✓ Transcripts
-                </span>
-                <span className="text-xs bg-blue-50 text-primary-blue px-3 py-1 rounded-full font-medium">
-                  ✓ Certificates
-                </span>
-                <span className="text-xs bg-blue-50 text-primary-blue px-3 py-1 rounded-full font-medium">
-                  ✓ CV/Resume
-                </span>
-                <span className="text-xs bg-blue-50 text-primary-blue px-3 py-1 rounded-full font-medium">
-                  ✓ Test Scores
-                </span>
+              <div>
+                <h2 className="text-xl font-bold text-gray-900">Upload Your Documents</h2>
+                <p className="text-sm text-primary-gold font-semibold">Create Your Unique Student Card Instantly</p>
               </div>
-
-              <p className="text-xs text-gray-600 italic">
-                💡 You can always review, edit, and update any information after upload
-              </p>
             </div>
 
-            {/* CTA Button */}
-            <div className="w-full md:w-auto">
-              <Button
-                size="large"
-                onClick={() => setShowModal(true)}
-                className="w-full md:w-auto bg-gradient-to-r from-primary-gold to-yellow-500 hover:from-yellow-500 hover:to-primary-gold text-white shadow-lg transform hover:scale-105 transition-all"
-              >
-                <HiOutlineCloudArrowUp className="mr-2" size={24} />
-                Upload Documents
-              </Button>
+            <p className="text-gray-700 text-sm mb-3">
+              Upload your academic transcripts, certificates, CV, or any documents – we'll automatically extract the information and create your complete student profile.
+            </p>
+
+            <div className="flex flex-wrap gap-2 mb-3">
+              <span className="text-xs bg-blue-50 text-primary-blue px-2 py-1 rounded-full font-medium">
+                ✓ Transcripts
+              </span>
+              <span className="text-xs bg-blue-50 text-primary-blue px-2 py-1 rounded-full font-medium">
+                ✓ Certificates
+              </span>
+              <span className="text-xs bg-blue-50 text-primary-blue px-2 py-1 rounded-full font-medium">
+                ✓ CV/Resume
+              </span>
+              <span className="text-xs bg-blue-50 text-primary-blue px-2 py-1 rounded-full font-medium">
+                ✓ Test Scores
+              </span>
             </div>
+
+            <p className="text-xs text-gray-600 italic mb-4">
+              💡 You can always review, edit, and update any information after upload
+            </p>
+
+            <Button
+              size="medium"
+              onClick={() => setShowModal(true)}
+              className="w-full bg-gradient-to-r from-primary-gold to-yellow-500 hover:from-yellow-500 hover:to-primary-gold text-white shadow-lg transform hover:scale-105 transition-all"
+            >
+              <HiOutlineCloudArrowUp className="mr-2" size={20} />
+              Upload Documents
+            </Button>
           </div>
         </div>
+
+        {/* Right: Student Card Preview */}
+        <StudentCard />
       </div>
 
       {/* Upload Modal */}
