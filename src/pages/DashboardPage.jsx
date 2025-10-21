@@ -103,7 +103,10 @@ const DashboardPage = () => {
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
               <img src="/logo.png" alt="Educha" className="h-12 w-auto" />
-              <span className="text-2xl font-display font-bold text-primary-blue">educha</span>
+              <div>
+                <h1 className="text-2xl font-serif font-semibold text-primary-blue tracking-tight">educha</h1>
+                <p className="text-[10px] font-light text-gray-600 tracking-widest uppercase">Connecting Minds, Building Futures</p>
+              </div>
             </div>
             <div className="flex items-center gap-4">
               <div className="text-right hidden sm:block">
