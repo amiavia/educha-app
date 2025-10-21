@@ -100,7 +100,7 @@ const DocumentUpload = ({ onUploadComplete }) => {
         </div>
 
         {/* Right: Student Card Preview */}
-        <div className="h-full">
+        <div className="flex items-center justify-center">
           <StudentCard />
         </div>
       </div>
