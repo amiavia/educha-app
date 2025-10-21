@@ -175,6 +175,77 @@ const AdmissionsGuide = () => {
                   </div>
                 </section>
 
+                {/* Changing Your Choices */}
+                <section className="mb-8">
+                  <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
+                    <HiOutlineAcademicCap className="text-primary-blue" size={24} />
+                    Can I change my university choices?
+                  </h3>
+                  <p className="text-gray-700 mb-4">
+                    Choosing the right university course is a big decision. UCAS and universities understand this, and they can be flexible if you change your mind at some point. But it's important to act quickly – and you'll need to be clear with what you want to do instead.
+                  </p>
+
+                  <div className="space-y-4">
+                    {/* Changing UCAS Choices */}
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <h4 className="font-bold text-gray-900 mb-2">🔄 Can I change my UCAS choices?</h4>
+                      <p className="text-sm text-gray-700 mb-3">
+                        Once you've made your five university choices, you'll receive confirmation from UCAS. If any of the details are incorrect, you'll need to contact UCAS straight away.
+                      </p>
+                      <ul className="text-sm text-gray-700 space-y-2 ml-4">
+                        <li>• <strong>To change courses within a university:</strong> Speak to the university directly. If they agree, they'll let UCAS know and your UCAS Hub will be updated.</li>
+                        <li>• <strong>To change a university:</strong> You must act within 14 days of getting your UCAS confirmation email. After this, you can only change under exceptional circumstances (like a family issue).</li>
+                      </ul>
+                    </div>
+
+                    {/* Swapping Firm and Insurance */}
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <h4 className="font-bold text-gray-900 mb-2">🔀 Can I swap my firm and insurance choices?</h4>
+                      <p className="text-sm text-gray-700 mb-3">
+                        It's possible to swap your firm and insurance choices after responding to your offers - but this depends on timing.
+                      </p>
+                      <ul className="text-sm text-gray-700 space-y-2 ml-4">
+                        <li>• <strong>Within 14 days:</strong> Contact a UCAS adviser to make this change.</li>
+                        <li>• <strong>After two weeks:</strong> Contact both universities about swapping, then call UCAS to confirm. No guarantees!</li>
+                        <li>• <strong>Deadline:</strong> Late July (check UCAS website for exact date)</li>
+                      </ul>
+                    </div>
+
+                    {/* Declining Firm Choice */}
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <h4 className="font-bold text-gray-900 mb-2">❌ Can I decline my firm choice?</h4>
+                      <p className="text-sm text-gray-700 mb-2">
+                        This depends on whether your firm choice is conditional or unconditional:
+                      </p>
+                      <ul className="text-sm text-gray-700 space-y-2 ml-4">
+                        <li>• <strong>Firm conditional:</strong> Call UCAS to see if it's possible to change.</li>
+                        <li>• <strong>Firm unconditional:</strong> You can release yourself into Clearing from 5 July using the 'decline your place' button. <span className="text-red-600 font-semibold">Warning: You will lose your current place!</span></li>
+                      </ul>
+                    </div>
+
+                    {/* Canceling Application */}
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <h4 className="font-bold text-gray-900 mb-2">🚫 Can I cancel my UCAS application?</h4>
+                      <p className="text-sm text-gray-700 mb-2">
+                        Yes, you can completely withdraw your application:
+                      </p>
+                      <ul className="text-sm text-gray-700 space-y-2 ml-4">
+                        <li>• <strong>Before accepting offers:</strong> Sign in to your UCAS Hub and withdraw online.</li>
+                        <li>• <strong>Get a refund:</strong> Cancel within 14 days of submitting to get your UCAS fee refunded.</li>
+                        <li>• <strong>After accepting offers:</strong> Phone UCAS or the universities to withdraw.</li>
+                      </ul>
+                    </div>
+
+                    {/* Changing Courses Once at Uni */}
+                    <div className="bg-blue-50 rounded-lg p-4">
+                      <h4 className="font-bold text-gray-900 mb-2">🏫 Can I change courses once at university?</h4>
+                      <p className="text-sm text-gray-700">
+                        It's not always easy to change courses once you've started – this depends on the course and university. But it can be done! Speak to your course tutor or student services if you're considering this.
+                      </p>
+                    </div>
+                  </div>
+                </section>
+
                 {/* Alternative Routes */}
                 <section className="mb-8">
                   <h3 className="text-xl font-bold text-gray-900 mb-3 flex items-center gap-2">
@@ -214,8 +285,11 @@ const AdmissionsGuide = () => {
 
                 {/* Citation */}
                 <div className="border-t border-gray-200 pt-4 mt-6">
-                  <p className="text-xs text-gray-500">
-                    <strong>Source:</strong> The Uni Guide - "What are university entry requirements?"<br />
+                  <p className="text-xs text-gray-500 mb-3">
+                    <strong>Sources:</strong> The Uni Guide (part of The Student Room Group)
+                  </p>
+                  <p className="text-xs text-gray-500 mb-2">
+                    1. "What are university entry requirements?"<br />
                     <a
                       href="https://www.theuniguide.co.uk/advice/ucas-application/what-are-university-entry-requirements"
                       target="_blank"
@@ -223,6 +297,17 @@ const AdmissionsGuide = () => {
                       className="text-primary-blue hover:underline"
                     >
                       https://www.theuniguide.co.uk/advice/ucas-application/what-are-university-entry-requirements
+                    </a>
+                  </p>
+                  <p className="text-xs text-gray-500">
+                    2. "Can I change my choices when applying to university?"<br />
+                    <a
+                      href="https://www.theuniguide.co.uk/advice/ucas-application/can-i-change-my-choices-when-applying-to-university"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-primary-blue hover:underline"
+                    >
+                      https://www.theuniguide.co.uk/advice/ucas-application/can-i-change-my-choices-when-applying-to-university
                     </a>
                     <br />
                     By Nik Taylor (editor, The Uni Guide) | 10 September 2025
