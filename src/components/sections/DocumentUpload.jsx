@@ -49,10 +49,10 @@ const DocumentUpload = ({ onUploadComplete }) => {
   return (
     <>
       {/* Split Layout: Upload Section + Student Card */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 lg:items-stretch">
         {/* Left: Upload Section */}
-        <div className="bg-gradient-to-r from-primary-gold via-yellow-400 to-primary-gold rounded-2xl p-1 shadow-lg">
-          <div className="bg-white rounded-xl p-6">
+        <div className="bg-gradient-to-r from-primary-gold via-yellow-400 to-primary-gold rounded-2xl p-1 shadow-lg h-full flex flex-col">
+          <div className="bg-white rounded-xl p-6 flex-1 flex flex-col">
             <div className="flex items-center gap-3 mb-4">
               <div className="bg-gradient-to-br from-primary-gold to-yellow-500 text-white rounded-full p-3">
                 <HiOutlineSparkles size={28} />
@@ -86,19 +86,23 @@ const DocumentUpload = ({ onUploadComplete }) => {
               💡 You can always review, edit, and update any information after upload
             </p>
 
-            <Button
-              size="medium"
-              onClick={() => setShowModal(true)}
-              className="w-full bg-gradient-to-r from-primary-gold to-yellow-500 hover:from-yellow-500 hover:to-primary-gold text-white shadow-lg transform hover:scale-105 transition-all"
-            >
-              <HiOutlineCloudArrowUp className="mr-2" size={20} />
-              Upload Documents
-            </Button>
+            <div className="mt-auto">
+              <Button
+                size="medium"
+                onClick={() => setShowModal(true)}
+                className="w-full bg-gradient-to-r from-primary-gold to-yellow-500 hover:from-yellow-500 hover:to-primary-gold text-white shadow-lg transform hover:scale-105 transition-all"
+              >
+                <HiOutlineCloudArrowUp className="mr-2" size={20} />
+                Upload Documents
+              </Button>
+            </div>
           </div>
         </div>
 
         {/* Right: Student Card Preview */}
-        <StudentCard />
+        <div className="h-full">
+          <StudentCard />
+        </div>
       </div>
 
       {/* Upload Modal */}
