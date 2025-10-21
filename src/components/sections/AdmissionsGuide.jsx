@@ -19,7 +19,7 @@ const AdmissionsGuide = () => {
             <h3 className="text-xl font-bold text-gray-900 mb-2">The A-Z to Admissions</h3>
             <p className="text-sm text-gray-600 mb-4">All you need to know</p>
             <p className="text-sm text-gray-700 mb-4">
-              Everything from entry requirements to UCAS points, interviews, portfolios, and alternative routes to university.
+              Complete UK university admissions guide: entry requirements, UCAS points, changing choices, BTECs, references, gap years, contextual admissions & more.
             </p>
             <Button
               size="small"
@@ -271,6 +271,98 @@ const AdmissionsGuide = () => {
                   </div>
                 </section>
 
+                {/* Additional Topics - Concise Format */}
+                <section className="mb-8">
+                  <h3 className="text-xl font-bold text-gray-900 mb-4">More Essential Topics</h3>
+
+                  <div className="space-y-3">
+                    {/* Universities seeing other choices */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">🔍 Can universities see where else you've applied?</summary>
+                      <p className="text-sm text-gray-700 mt-2 mb-2"><strong>No, they can't</strong> - admissions tutors cannot see your other four choices. Universities only know where else you applied once you've chosen your firm/insurance.</p>
+                      <p className="text-sm text-gray-700"><strong>Oxbridge:</strong> Even if you apply by the October deadline (often Oxbridge applicants), universities don't assume or know for certain - and it doesn't affect decisions.</p>
+                    </details>
+
+                    {/* BTECs */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">🎓 Can you get into university with BTECs?</summary>
+                      <p className="text-sm text-gray-700 mt-2 mb-2"><strong>Yes!</strong> Most UK universities accept BTECs, including Russell Group universities. Over 100,000 BTEC students apply each year.</p>
+                      <p className="text-sm text-gray-700 mb-2"><strong>Tip:</strong> Check specific course requirements - some courses may need additional A-levels or specific modules. BTEC students often transition well to university due to portfolio-based coursework experience.</p>
+                    </details>
+
+                    {/* UCAS Reference */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">📝 Getting a great UCAS reference</summary>
+                      <p className="text-sm text-gray-700 mt-2 mb-2"><strong>What it includes:</strong> Academic ability, predicted grades, extenuating circumstances, and personal qualities.</p>
+                      <p className="text-sm text-gray-700 mb-2"><strong>How to help your referee:</strong> Discuss your course early, mention personal circumstances you want included, highlight extracurricular achievements, and say thank you!</p>
+                    </details>
+
+                    {/* Gap Years */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">✈️ How universities view gap years</summary>
+                      <p className="text-sm text-gray-700 mt-2 mb-2"><strong>Generally positive!</strong> Universities welcome the maturity and experience gap year students bring.</p>
+                      <p className="text-sm text-gray-700 mb-2"><strong>Options:</strong> Apply for deferred entry, apply during gap year with achieved grades, or request deferment after receiving offers.</p>
+                      <p className="text-sm text-gray-700"><strong>Make it count:</strong> Gain relevant experience, earn money, travel, learn new skills, or resit exams. Show in your personal statement how it enhanced you as an individual.</p>
+                    </details>
+
+                    {/* Contextual Admissions */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">🌍 Contextual admissions policies</summary>
+                      <p className="text-sm text-gray-700 mt-2 mb-2"><strong>What it is:</strong> Universities consider your background to identify students with highest potential beyond just exam results.</p>
+                      <p className="text-sm text-gray-700"><strong>Factors considered:</strong> School performance history, your postcode/area, care status, moves from abroad, participation in outreach programmes. Can affect offers, interviews, borderline decisions, and Clearing.</p>
+                    </details>
+
+                    {/* Post-UCAS steps */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">✅ Post-UCAS deadline: what's next?</summary>
+                      <p className="text-sm text-gray-700 mt-2 mb-2"><strong>5 key steps:</strong></p>
+                      <ul className="text-sm text-gray-700 space-y-1 ml-4">
+                        <li>1. Prepare to respond to offers (understand offer types)</li>
+                        <li>2. Prepare for interviews if invited</li>
+                        <li>3. Visit universities again to be sure</li>
+                        <li>4. Apply for student finance (don't wait for offers!)</li>
+                        <li>5. Research student accommodation options</li>
+                      </ul>
+                    </details>
+
+                    {/* Multiple courses same uni */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">🎯 Applying for multiple courses at one university</summary>
+                      <p className="text-sm text-gray-700 mt-2 mb-2"><strong>Considerations:</strong> Can your personal statement work for both? Is it a wasted choice if they're similar variants?</p>
+                      <p className="text-sm text-gray-700"><strong>Advice:</strong> Check with the university directly. For medicine/dentistry/vet med, using your 5th choice for a related course (like biomedical sciences) is often recommended.</p>
+                    </details>
+
+                    {/* 6 application steps */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">📋 6 steps to apply to university</summary>
+                      <p className="text-sm text-gray-700 mt-2">
+                        <strong>1.</strong> Choose course & university • <strong>2.</strong> Know deadlines (Jan 29 for most, Oct 15 for Oxbridge/medicine) • <strong>3.</strong> Check entry requirements • <strong>4.</strong> Register with UCAS • <strong>5.</strong> Write personal statement • <strong>6.</strong> Wait for offers!
+                      </p>
+                    </details>
+
+                    {/* UCAS Tariff */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">🔢 UCAS Tariff points explained</summary>
+                      <p className="text-sm text-gray-700 mt-2 mb-2"><strong>What it is:</strong> A points system to compare qualifications. A-levels: A*=56, A=48, B=40, C=32, D=24, E=16.</p>
+                      <p className="text-sm text-gray-700"><strong>Why universities use it:</strong> Creates flexibility - multiple ways to reach the same points total. Not all universities use tariff; some specify exact grades instead.</p>
+                    </details>
+
+                    {/* Unconditional offers */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">✨ Unconditional offers: should you accept?</summary>
+                      <p className="text-sm text-gray-700 mt-2 mb-2"><strong>What it is:</strong> Guaranteed place with no further requirements. Often given to gap year students with achieved grades, or based on strong predicted grades/interviews.</p>
+                      <p className="text-sm text-gray-700"><strong>Advice:</strong> Don't rush your decision - wait to hear from all universities. Can make it your insurance choice for a stress-free backup. Don't let it reduce your exam effort!</p>
+                    </details>
+
+                    {/* Conditional offers */}
+                    <details className="bg-gray-50 rounded-lg p-4">
+                      <summary className="font-bold text-gray-900 cursor-pointer">📊 Understanding conditional offers</summary>
+                      <p className="text-sm text-gray-700 mt-2 mb-2"><strong>Given with grades:</strong> e.g., AAB - achieve these in your exams. <strong>Given with points:</strong> e.g., 128 UCAS points from minimum 2 A-levels.</p>
+                      <p className="text-sm text-gray-700"><strong>Other conditions:</strong> May include DBS checks, specific subject grades, or GCSE requirements. If you just miss your offer, universities may still accept you.</p>
+                    </details>
+                  </div>
+                </section>
+
                 {/* Pro Tips */}
                 <div className="bg-gradient-to-r from-primary-blue to-accent-blue text-white rounded-lg p-6 mb-6">
                   <h4 className="font-bold text-lg mb-3">💡 Pro Tips:</h4>
@@ -286,32 +378,22 @@ const AdmissionsGuide = () => {
                 {/* Citation */}
                 <div className="border-t border-gray-200 pt-4 mt-6">
                   <p className="text-xs text-gray-500 mb-3">
-                    <strong>Sources:</strong> The Uni Guide (part of The Student Room Group)
+                    <strong>Sources:</strong> The Uni Guide (part of The Student Room Group) - By Nik Taylor (editor, The Uni Guide) | 10 September 2025
                   </p>
-                  <p className="text-xs text-gray-500 mb-2">
-                    1. "What are university entry requirements?"<br />
-                    <a
-                      href="https://www.theuniguide.co.uk/advice/ucas-application/what-are-university-entry-requirements"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary-blue hover:underline"
-                    >
-                      https://www.theuniguide.co.uk/advice/ucas-application/what-are-university-entry-requirements
-                    </a>
-                  </p>
-                  <p className="text-xs text-gray-500">
-                    2. "Can I change my choices when applying to university?"<br />
-                    <a
-                      href="https://www.theuniguide.co.uk/advice/ucas-application/can-i-change-my-choices-when-applying-to-university"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-primary-blue hover:underline"
-                    >
-                      https://www.theuniguide.co.uk/advice/ucas-application/can-i-change-my-choices-when-applying-to-university
-                    </a>
-                    <br />
-                    By Nik Taylor (editor, The Uni Guide) | 10 September 2025
-                  </p>
+                  <div className="text-xs text-gray-500 space-y-1">
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/what-are-university-entry-requirements" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">University entry requirements</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/can-i-change-my-choices-when-applying-to-university" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">Changing choices</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/can-universities-see-where-else-youve-applied-to" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">Universities seeing other choices</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/can-you-get-into-university-if-youre-studying-btecs" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">BTECs at university</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/getting-a-teacher-to-write-your-ucas-reference" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">UCAS references</a> & <a href="https://www.theuniguide.co.uk/advice/ucas-application/how-to-get-the-ucas-reference-you-want" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">Getting the reference you want</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/how-do-universities-view-gap-years" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">Gap years</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/how-will-contextual-admissions-policies-affect-my-application" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">Contextual admissions</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/post-ucas-deadline-five-things-to-do-next" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">Post-UCAS steps</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/should-you-apply-for-more-than-one-course-at-the-same-university" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">Multiple courses same uni</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/six-steps-you-need-to-take-to-apply-to-university" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">Six application steps</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/ucas-tariff-what-you-need-to-know-about-ucas-points" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">UCAS tariff</a></p>
+                    <p>• <a href="https://www.theuniguide.co.uk/advice/ucas-application/unconditional-offers-should-you-always-accept" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underlink">Unconditional offers</a> & <a href="https://www.theuniguide.co.uk/advice/ucas-application/understanding-conditional-offers" target="_blank" rel="noopener noreferrer" className="text-primary-blue hover:underline">Conditional offers</a></p>
+                  </div>
                 </div>
               </div>
 
