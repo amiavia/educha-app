@@ -4,15 +4,28 @@ import { profileSections, universities } from '../data/mockData';
 import { HiOutlineAcademicCap, HiOutlineCheckCircle, HiOutlineClock, HiOutlineSparkles } from 'react-icons/hi2';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
+import ProfileModal from '../components/modals/ProfileModal';
 
 const DashboardPage = () => {
   const { user, logout } = useAuth();
   const [activeTab, setActiveTab] = useState('profile');
   const [selectedDegree, setSelectedDegree] = useState('bachelor');
+  const [selectedSection, setSelectedSection] = useState(null);
+  const [sections, setSections] = useState(profileSections);
 
-  const completedSections = profileSections.filter(s => s.completed).length;
-  const totalSections = profileSections.length;
+  const completedSections = sections.filter(s => s.completed).length;
+  const totalSections = sections.length;
   const completionPercentage = Math.round((completedSections / totalSections) * 100);
+
+  const handleSaveSection = (sectionId, data) => {
+    setSections(sections.map(s =>
+      s.id === sectionId ? { ...s, completed: true, data } : s
+    ));
+  };
+
+  const handleOpenSection = (section) => {
+    setSelectedSection(section);
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -102,7 +115,7 @@ const DashboardPage = () => {
         {/* Profile Tab */}
         {activeTab === 'profile' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {profileSections.map((section) => (
+            {sections.map((section) => (
               <Card
                 key={section.id}
                 className={`relative ${section.completed ? 'border-2 border-green-200' : ''}`}
@@ -132,6 +145,7 @@ const DashboardPage = () => {
                       size="small"
                       variant={section.completed ? 'secondary' : 'primary'}
                       className="w-full"
+                      onClick={() => handleOpenSection(section)}
                     >
                       {section.completed ? 'Edit' : 'Complete'} →
                     </Button>
@@ -222,6 +236,15 @@ const DashboardPage = () => {
           </div>
         )}
       </div>
+
+      {/* Profile Modal */}
+      {selectedSection && (
+        <ProfileModal
+          section={selectedSection}
+          onClose={() => setSelectedSection(null)}
+          onSave={handleSaveSection}
+        />
+      )}
     </div>
   );
 };
