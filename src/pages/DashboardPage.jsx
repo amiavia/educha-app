@@ -5,6 +5,7 @@ import { HiOutlineAcademicCap, HiOutlineCheckCircle, HiOutlineClock, HiOutlineSp
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import ProfileModal from '../components/modals/ProfileModal';
+import AdmissionsGuide from '../components/sections/AdmissionsGuide';
 
 const DashboardPage = () => {
   const { user, logout } = useAuth();
@@ -115,6 +116,10 @@ const DashboardPage = () => {
         {/* Profile Tab */}
         {activeTab === 'profile' && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {/* Admissions Guide Tile */}
+            <AdmissionsGuide />
+
+            {/* Profile Section Tiles */}
             {sections.map((section) => (
               <Card
                 key={section.id}
