@@ -16,4 +16,13 @@
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-blue to-accent-blue;
   }
+
+  /* Hide scrollbar for mobile horizontal scrolling */
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }

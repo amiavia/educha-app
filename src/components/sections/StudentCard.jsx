@@ -55,8 +55,8 @@ const StudentCard = () => {
     <div className="relative w-full">
       {/* Student Card - Credit Card Format with Platinum/Silver Design */}
       <div
-        className="bg-gradient-to-br from-slate-700 via-slate-600 to-slate-500 rounded-2xl p-5 text-white shadow-2xl relative overflow-hidden w-full"
-        style={{ aspectRatio: '1.586 / 1' }}
+        className="bg-gradient-to-br from-slate-700 via-slate-600 to-slate-500 rounded-2xl p-4 sm:p-5 md:p-6 text-white shadow-2xl relative overflow-hidden w-full"
+        style={{ aspectRatio: window.innerWidth < 640 ? 'auto' : '1.586 / 1', minHeight: window.innerWidth < 640 ? '500px' : 'auto' }}
       >
         {/* Shimmer overlay */}
         {shimmer && (
@@ -73,38 +73,39 @@ const StudentCard = () => {
         {/* Content */}
         <div className="relative z-10 h-full flex flex-col justify-between">
           {/* Top Row: Header + Status */}
-          <div className="flex items-start justify-between mb-2">
+          <div className="flex items-start justify-between mb-3 sm:mb-2">
             <div>
-              <h3 className="text-[11px] font-bold text-white/90 uppercase tracking-wide">Student Card</h3>
-              <p className="text-[9px] text-white/70 mt-0.5">ID: {uniqueId}</p>
+              <h3 className="text-xs sm:text-[11px] font-bold text-white/90 uppercase tracking-wide">Student Card</h3>
+              <p className="text-[10px] sm:text-[9px] text-white/70 mt-0.5">ID: {uniqueId}</p>
             </div>
             <div className="flex flex-col items-end gap-0.5">
-              <div className="bg-emerald-400/20 border border-emerald-400/40 backdrop-blur-sm rounded-full px-2 py-0.5">
-                <p className="text-[9px] font-semibold text-emerald-100">{studentData.status}</p>
+              <div className="bg-emerald-400/20 border border-emerald-400/40 backdrop-blur-sm rounded-full px-2.5 py-1 sm:px-2 sm:py-0.5">
+                <p className="text-[10px] sm:text-[9px] font-semibold text-emerald-100">{studentData.status}</p>
               </div>
-              <p className="text-[9px] text-white/60">Valid until {studentData.validUntil}</p>
+              <p className="text-[10px] sm:text-[9px] text-white/60">Valid until {studentData.validUntil}</p>
             </div>
           </div>
 
           {/* Main Section: Photo + Info (Compact) */}
-          <div className="flex gap-4 mb-2">
-            {/* Photo - 100% bigger */}
+          <div className="flex gap-3 sm:gap-4 mb-3 sm:mb-2">
+            {/* Photo - Responsive sizing */}
             <div className="relative shrink-0">
-              <div className="w-28 h-28 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden flex items-center justify-center">
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden flex items-center justify-center">
                 {studentData.photo ? (
                   <img src={studentData.photo} alt="Student" className="w-full h-full object-cover" />
                 ) : (
                   <div className="text-white/60 text-center">
-                    <HiOutlineCamera size={32} className="mx-auto mb-1" />
+                    <HiOutlineCamera size={28} className="mx-auto mb-1 sm:w-8 sm:h-8" />
                     <p className="text-xs">Photo</p>
                   </div>
                 )}
               </div>
               <button
                 onClick={() => fileInputRef.current?.click()}
-                className="absolute -top-1.5 -right-1.5 bg-white text-slate-700 rounded-full p-2 shadow-lg hover:scale-110 transition-transform"
+                className="absolute -top-1.5 -right-1.5 bg-white text-slate-700 rounded-full p-2.5 sm:p-2 shadow-lg hover:scale-110 transition-transform active:scale-95"
+                style={{ minWidth: '44px', minHeight: '44px' }}
               >
-                <HiOutlineCamera size={14} />
+                <HiOutlineCamera size={16} className="sm:w-3.5 sm:h-3.5" />
               </button>
               <input
                 ref={fileInputRef}
@@ -116,7 +117,7 @@ const StudentCard = () => {
             </div>
 
             {/* Personal Info */}
-            <div className="flex-1 space-y-1">
+            <div className="flex-1 space-y-1.5 sm:space-y-1">
               {/* Name & Age */}
               <div>
                 {editing === 'name' ? (
@@ -127,19 +128,20 @@ const StudentCard = () => {
                     onBlur={() => setEditing(null)}
                     onKeyPress={(e) => e.key === 'Enter' && setEditing(null)}
                     autoFocus
-                    className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-2 py-0.5 text-white text-sm font-bold w-full"
+                    className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-3 py-2 sm:px-2 sm:py-0.5 text-white text-base sm:text-sm font-bold w-full"
+                    style={{ minHeight: '44px' }}
                   />
                 ) : (
                   <div
                     onClick={() => setEditing('name')}
-                    className="flex items-center gap-1 cursor-pointer group/edit"
+                    className="flex items-center gap-1 cursor-pointer group/edit min-h-[44px] sm:min-h-0"
                   >
-                    <h2 className="text-base font-bold">{studentData.name}</h2>
-                    <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity" size={10} />
+                    <h2 className="text-lg sm:text-base font-bold">{studentData.name}</h2>
+                    <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity" size={12} />
                   </div>
                 )}
 
-                <div className="flex items-center gap-2 mt-0.5">
+                <div className="flex items-center gap-2 mt-1">
                   {editing === 'age' ? (
                     <input
                       type="text"
@@ -148,19 +150,20 @@ const StudentCard = () => {
                       onBlur={() => setEditing(null)}
                       onKeyPress={(e) => e.key === 'Enter' && setEditing(null)}
                       autoFocus
-                      className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-2 py-0.5 text-white text-xs w-16"
+                      className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-3 py-2 sm:px-2 sm:py-0.5 text-white text-sm sm:text-xs w-20"
+                      style={{ minHeight: '44px' }}
                     />
                   ) : (
                     <div
                       onClick={() => setEditing('age')}
-                      className="flex items-center gap-1 cursor-pointer group/edit"
+                      className="flex items-center gap-1 cursor-pointer group/edit min-h-[44px] sm:min-h-0 py-2 sm:py-0"
                     >
-                      <p className="text-white/90 text-xs">Age {studentData.age}</p>
-                      <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity" size={10} />
+                      <p className="text-white/90 text-sm sm:text-xs">Age {studentData.age}</p>
+                      <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity" size={12} />
                     </div>
                   )}
 
-                  <span className="text-white/40 text-xs">•</span>
+                  <span className="text-white/40 text-sm sm:text-xs">•</span>
 
                   {editing === 'gpa' ? (
                     <input
@@ -170,15 +173,16 @@ const StudentCard = () => {
                       onBlur={() => setEditing(null)}
                       onKeyPress={(e) => e.key === 'Enter' && setEditing(null)}
                       autoFocus
-                      className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-2 py-0.5 text-white text-xs w-16"
+                      className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-3 py-2 sm:px-2 sm:py-0.5 text-white text-sm sm:text-xs w-20"
+                      style={{ minHeight: '44px' }}
                     />
                   ) : (
                     <div
                       onClick={() => setEditing('gpa')}
-                      className="flex items-center gap-1 cursor-pointer group/edit"
+                      className="flex items-center gap-1 cursor-pointer group/edit min-h-[44px] sm:min-h-0 py-2 sm:py-0"
                     >
-                      <p className="text-white/90 text-xs">GPA {studentData.gpa}</p>
-                      <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity" size={10} />
+                      <p className="text-white/90 text-sm sm:text-xs">GPA {studentData.gpa}</p>
+                      <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity" size={12} />
                     </div>
                   )}
                 </div>
@@ -194,15 +198,16 @@ const StudentCard = () => {
                     onBlur={() => setEditing(null)}
                     onKeyPress={(e) => e.key === 'Enter' && setEditing(null)}
                     autoFocus
-                    className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-2 py-0.5 text-white text-xs w-full"
+                    className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-3 py-2 sm:px-2 sm:py-0.5 text-white text-sm sm:text-xs w-full"
+                    style={{ minHeight: '44px' }}
                   />
                 ) : (
                   <div
                     onClick={() => setEditing('location')}
-                    className="flex items-center gap-1 cursor-pointer group/edit"
+                    className="flex items-center gap-1 cursor-pointer group/edit min-h-[44px] sm:min-h-0 py-2 sm:py-0"
                   >
-                    <p className="text-white/90 text-xs">📍 {studentData.location}</p>
-                    <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity" size={10} />
+                    <p className="text-white/90 text-sm sm:text-xs">📍 {studentData.location}</p>
+                    <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity" size={12} />
                   </div>
                 )}
               </div>
@@ -217,15 +222,16 @@ const StudentCard = () => {
                     onBlur={() => setEditing(null)}
                     onKeyPress={(e) => e.key === 'Enter' && setEditing(null)}
                     autoFocus
-                    className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-2 py-0.5 text-white text-xs w-full"
+                    className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-3 py-2 sm:px-2 sm:py-0.5 text-white text-sm sm:text-xs w-full"
+                    style={{ minHeight: '44px' }}
                   />
                 ) : (
                   <div
                     onClick={() => setEditing('email')}
-                    className="flex items-center gap-1 cursor-pointer group/edit"
+                    className="flex items-center gap-1 cursor-pointer group/edit min-h-[44px] sm:min-h-0 py-2 sm:py-0"
                   >
-                    <p className="text-white/90 text-xs">✉️ {studentData.email}</p>
-                    <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity" size={10} />
+                    <p className="text-white/90 text-sm sm:text-xs">✉️ {studentData.email}</p>
+                    <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity" size={12} />
                   </div>
                 )}
               </div>
@@ -233,10 +239,10 @@ const StudentCard = () => {
           </div>
 
           {/* Goals Section - Horizontal Layout */}
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-2">
             {/* Dream University */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2">
-              <p className="text-[8px] text-white/70 mb-0.5 uppercase tracking-wider font-semibold">Dream University</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-2">
+              <p className="text-[9px] sm:text-[8px] text-white/70 mb-1 sm:mb-0.5 uppercase tracking-wider font-semibold">Dream University</p>
               {editing === 'dreamUniversity' ? (
                 <input
                   type="text"
@@ -245,22 +251,25 @@ const StudentCard = () => {
                   onBlur={() => setEditing(null)}
                   onKeyPress={(e) => e.key === 'Enter' && setEditing(null)}
                   autoFocus
-                  className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-2 py-0.5 text-white text-xs w-full"
+                  className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-3 py-2 sm:px-2 sm:py-0.5 text-white text-sm sm:text-xs w-full"
+                  style={{ minHeight: '44px' }}
                 />
               ) : (
                 <div
                   onClick={() => setEditing('dreamUniversity')}
-                  className="cursor-pointer group/edit"
+                  className="cursor-pointer group/edit min-h-[44px] sm:min-h-0 flex items-center"
                 >
-                  <p className="font-semibold text-xs leading-tight">{studentData.dreamUniversity}</p>
-                  <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity mt-0.5" size={10} />
+                  <div>
+                    <p className="font-semibold text-sm sm:text-xs leading-tight">{studentData.dreamUniversity}</p>
+                    <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity mt-0.5" size={12} />
+                  </div>
                 </div>
               )}
             </div>
 
             {/* Dream Subject */}
-            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-2">
-              <p className="text-[8px] text-white/70 mb-0.5 uppercase tracking-wider font-semibold">Dream Subject</p>
+            <div className="bg-white/10 backdrop-blur-sm rounded-lg p-3 sm:p-2">
+              <p className="text-[9px] sm:text-[8px] text-white/70 mb-1 sm:mb-0.5 uppercase tracking-wider font-semibold">Dream Subject</p>
               {editing === 'dreamSubject' ? (
                 <input
                   type="text"
@@ -269,28 +278,31 @@ const StudentCard = () => {
                   onBlur={() => setEditing(null)}
                   onKeyPress={(e) => e.key === 'Enter' && setEditing(null)}
                   autoFocus
-                  className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-2 py-0.5 text-white text-xs w-full"
+                  className="bg-white/20 backdrop-blur-sm border-2 border-white/30 rounded px-3 py-2 sm:px-2 sm:py-0.5 text-white text-sm sm:text-xs w-full"
+                  style={{ minHeight: '44px' }}
                 />
               ) : (
                 <div
                   onClick={() => setEditing('dreamSubject')}
-                  className="cursor-pointer group/edit"
+                  className="cursor-pointer group/edit min-h-[44px] sm:min-h-0 flex items-center"
                 >
-                  <p className="font-semibold text-xs leading-tight">{studentData.dreamSubject}</p>
-                  <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity mt-0.5" size={10} />
+                  <div>
+                    <p className="font-semibold text-sm sm:text-xs leading-tight">{studentData.dreamSubject}</p>
+                    <HiOutlinePencil className="opacity-0 group-hover/edit:opacity-100 transition-opacity mt-0.5" size={12} />
+                  </div>
                 </div>
               )}
             </div>
           </div>
 
           {/* Skills Tags */}
-          <div>
-            <p className="text-[8px] text-white/70 mb-1 uppercase tracking-wider font-semibold">Top Skills</p>
-            <div className="flex flex-wrap gap-1.5">
+          <div className="mt-2 sm:mt-0">
+            <p className="text-[9px] sm:text-[8px] text-white/70 mb-1.5 sm:mb-1 uppercase tracking-wider font-semibold">Top Skills</p>
+            <div className="flex flex-wrap gap-2 sm:gap-1.5">
               {studentData.skills.map((skill, idx) => (
                 <span
                   key={idx}
-                  className="bg-white/15 backdrop-blur-sm border border-white/25 rounded-full px-2 py-0.5 text-[9px] font-medium"
+                  className="bg-white/15 backdrop-blur-sm border border-white/25 rounded-full px-3 py-1.5 sm:px-2 sm:py-0.5 text-[10px] sm:text-[9px] font-medium"
                 >
                   {skill}
                 </span>
@@ -305,7 +317,8 @@ const StudentCard = () => {
                     });
                   }
                 }}
-                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm border border-white/20 border-dashed rounded-full px-2 py-0.5 text-[9px] font-medium transition-colors"
+                className="bg-white/10 hover:bg-white/20 active:bg-white/25 backdrop-blur-sm border border-white/20 border-dashed rounded-full px-3 py-1.5 sm:px-2 sm:py-0.5 text-[10px] sm:text-[9px] font-medium transition-colors"
+                style={{ minHeight: '44px', minWidth: '44px' }}
               >
                 + Add
               </button>
@@ -313,9 +326,9 @@ const StudentCard = () => {
           </div>
 
           {/* Footer */}
-          <div className="pt-2 border-t border-white/20">
-            <p className="text-[7px] text-white/60">Click any field to edit</p>
-            <p className="text-[7px] text-white/60 mt-0.5">Powered by educha</p>
+          <div className="pt-3 sm:pt-2 border-t border-white/20 mt-2 sm:mt-0">
+            <p className="text-[9px] sm:text-[7px] text-white/60">Click any field to edit</p>
+            <p className="text-[9px] sm:text-[7px] text-white/60 mt-0.5">Powered by educha</p>
           </div>
         </div>
       </div>

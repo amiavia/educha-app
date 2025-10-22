@@ -98,22 +98,28 @@ const DashboardPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
-      <header className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <img src="/logo.png" alt="Educha" className="h-12 w-auto" />
-              <div>
-                <h1 className="text-2xl font-serif font-semibold text-primary-blue tracking-tight">educha</h1>
-                <p className="text-[10px] font-light text-gray-600 tracking-widest uppercase">Connecting Minds, Building Futures</p>
+      <header className="bg-white shadow-sm sticky top-0 z-40">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+          <div className="flex justify-between items-center gap-2">
+            <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+              <img src="/logo.png" alt="Educha" className="h-8 sm:h-12 w-auto shrink-0" />
+              <div className="min-w-0">
+                <h1 className="text-lg sm:text-2xl font-serif font-semibold text-primary-blue tracking-tight truncate">educha</h1>
+                <p className="text-[8px] sm:text-[10px] font-light text-gray-600 tracking-widest uppercase hidden xs:block">Connecting Minds, Building Futures</p>
               </div>
             </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right hidden sm:block">
+            <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+              <div className="text-right hidden md:block">
                 <p className="text-sm font-medium text-gray-900">Welcome back, {user?.name}!</p>
                 <p className="text-xs text-gray-500">{user?.email}</p>
               </div>
-              <Button variant="ghost" onClick={logout} size="small">
+              <Button
+                variant="ghost"
+                onClick={logout}
+                size="small"
+                className="text-xs sm:text-sm px-2 sm:px-3 py-2"
+                style={{ minHeight: '44px', minWidth: '44px' }}
+              >
                 Sign Out
               </Button>
             </div>
@@ -126,34 +132,37 @@ const DashboardPage = () => {
         <DocumentUpload onUploadComplete={handleUploadComplete} />
 
         {/* Tabs */}
-        <div className="flex gap-2 mb-6 overflow-x-auto pb-2">
+        <div className="flex gap-2 mb-6 overflow-x-auto pb-2 -mx-4 px-4 sm:mx-0 sm:px-0 scrollbar-hide">
           <button
             onClick={() => setActiveTab('profile')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
+            className={`px-4 sm:px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap text-sm sm:text-base ${
               activeTab === 'profile'
                 ? 'bg-primary-blue text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                : 'bg-white text-gray-700 hover:bg-gray-50 active:bg-gray-100'
             }`}
+            style={{ minHeight: '44px' }}
           >
             📝 Complete Profile
           </button>
           <button
             onClick={() => setActiveTab('matches')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
+            className={`px-4 sm:px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap text-sm sm:text-base ${
               activeTab === 'matches'
                 ? 'bg-primary-blue text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                : 'bg-white text-gray-700 hover:bg-gray-50 active:bg-gray-100'
             }`}
+            style={{ minHeight: '44px' }}
           >
             🎯 Matches
           </button>
           <button
             onClick={() => setActiveTab('universities')}
-            className={`px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap ${
+            className={`px-4 sm:px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap text-sm sm:text-base ${
               activeTab === 'universities'
                 ? 'bg-primary-blue text-white'
-                : 'bg-white text-gray-700 hover:bg-gray-50'
+                : 'bg-white text-gray-700 hover:bg-gray-50 active:bg-gray-100'
             }`}
+            style={{ minHeight: '44px' }}
           >
             🎓 Explore Universities
           </button>
@@ -163,22 +172,22 @@ const DashboardPage = () => {
         {activeTab === 'profile' && (
           <>
             {/* Progress Banner */}
-            <div className="bg-gradient-to-r from-primary-blue to-accent-blue rounded-2xl p-6 sm:p-8 mb-8 text-white">
-              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-                <div className="flex-1">
+            <div className="bg-gradient-to-r from-primary-blue to-accent-blue rounded-xl sm:rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 text-white">
+              <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-4 sm:gap-6">
+                <div className="flex-1 w-full">
                   <div className="flex items-center gap-2 mb-2">
-                    <HiOutlineSparkles size={24} />
-                    <h2 className="text-2xl font-bold">Your Profile Power</h2>
+                    <HiOutlineSparkles size={20} className="sm:w-6 sm:h-6" />
+                    <h2 className="text-xl sm:text-2xl font-bold">Your Profile Power</h2>
                   </div>
-                  <p className="text-blue-100 mb-4">Complete your profile to unlock university matches!</p>
+                  <p className="text-sm sm:text-base text-blue-100 mb-3 sm:mb-4">Complete your profile to unlock university matches!</p>
 
                   {/* Progress Bar */}
                   <div className="relative">
-                    <div className="flex justify-between text-sm mb-2">
-                      <span>{completionPercentage}% Complete</span>
+                    <div className="flex justify-between text-xs sm:text-sm mb-2">
+                      <span className="font-semibold">{completionPercentage}% Complete</span>
                       <span>{completedSections}/{totalSections} sections</span>
                     </div>
-                    <div className="h-4 bg-white/20 rounded-full overflow-hidden">
+                    <div className="h-3 sm:h-4 bg-white/20 rounded-full overflow-hidden">
                       <div
                         className="h-full bg-primary-gold transition-all duration-500"
                         style={{ width: `${completionPercentage}%` }}
@@ -188,11 +197,11 @@ const DashboardPage = () => {
                 </div>
 
                 {/* Level Badge */}
-                <div className="flex flex-col items-center justify-center bg-white/10 backdrop-blur-sm rounded-xl p-6 min-w-[140px]">
-                  <div className="text-4xl mb-2">
+                <div className="flex flex-col items-center justify-center bg-white/10 backdrop-blur-sm rounded-xl p-4 sm:p-6 min-w-[120px] sm:min-w-[140px] self-center">
+                  <div className="text-3xl sm:text-4xl mb-1 sm:mb-2">
                     {completionPercentage < 40 ? '🌱' : completionPercentage < 70 ? '🌿' : '🌟'}
                   </div>
-                  <p className="text-sm font-semibold">
+                  <p className="text-xs sm:text-sm font-semibold text-center">
                     {completionPercentage < 40 ? 'Beginner' : completionPercentage < 70 ? 'Rising Star' : 'All-Star'}
                   </p>
                 </div>
@@ -257,20 +266,22 @@ const DashboardPage = () => {
             {/* Search and Filters */}
             <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
               {/* Search Bar */}
-              <div className="flex gap-3 mb-4">
+              <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 mb-4">
                 <div className="flex-1 relative">
-                  <HiOutlineMagnifyingGlass className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+                  <HiOutlineMagnifyingGlass className="absolute left-3 sm:left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
                   <input
                     type="text"
-                    placeholder="Search universities, programs, or locations..."
+                    placeholder="Search universities, programs..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent"
+                    className="w-full pl-10 sm:pl-12 pr-10 sm:pr-4 py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent"
+                    style={{ minHeight: '44px' }}
                   />
                   {searchQuery && (
                     <button
                       onClick={() => setSearchQuery('')}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 p-2"
+                      style={{ minHeight: '44px', minWidth: '44px' }}
                     >
                       <HiOutlineXMark size={20} />
                     </button>
@@ -279,10 +290,12 @@ const DashboardPage = () => {
                 <Button
                   variant={showFilters ? 'primary' : 'secondary'}
                   onClick={() => setShowFilters(!showFilters)}
-                  className="flex items-center gap-2"
+                  className="flex items-center justify-center gap-2 text-sm sm:text-base px-4 py-3 shrink-0"
+                  style={{ minHeight: '44px' }}
                 >
                   <HiOutlineAdjustmentsHorizontal size={20} />
-                  Filters
+                  <span className="hidden sm:inline">Filters</span>
+                  <span className="sm:hidden">Filter</span>
                 </Button>
               </div>
 
@@ -398,16 +411,17 @@ const DashboardPage = () => {
             </div>
 
             {/* Degree Filter */}
-            <div className="flex gap-3 mb-6 flex-wrap">
+            <div className="flex gap-2 sm:gap-3 mb-6 flex-wrap">
               {['bachelor', 'master', 'phd'].map((degree) => (
                 <button
                   key={degree}
                   onClick={() => setSelectedDegree(degree)}
-                  className={`px-4 py-2 rounded-lg font-medium transition-all capitalize ${
+                  className={`px-4 sm:px-5 py-2.5 sm:py-2 rounded-lg font-medium transition-all capitalize text-sm sm:text-base ${
                     selectedDegree === degree
                       ? 'bg-primary-blue text-white'
-                      : 'bg-white text-gray-700 hover:bg-gray-50'
+                      : 'bg-white text-gray-700 hover:bg-gray-50 active:bg-gray-100'
                   }`}
+                  style={{ minHeight: '44px' }}
                 >
                   {degree === 'phd' ? 'PhD' : degree}
                 </button>
