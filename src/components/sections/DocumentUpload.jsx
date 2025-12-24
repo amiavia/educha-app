@@ -1,17 +1,31 @@
 import React, { useState } from 'react';
-import { HiOutlineCloudArrowUp, HiOutlineDocumentText, HiOutlineCheckCircle, HiOutlineSparkles, HiOutlineXMark } from 'react-icons/hi2';
+import { HiOutlineCloudArrowUp, HiOutlineDocumentText, HiOutlineCheckCircle, HiOutlineSparkles, HiOutlineXMark, HiOutlineTrash } from 'react-icons/hi2';
+import { useMutation, useQuery } from 'convex/react';
+import { api } from '../../../convex/_generated/api';
+import { useAuth } from '../../context/AuthContext';
 import Button from '../ui/Button';
 import StudentCard from './StudentCard';
 
 const DocumentUpload = ({ onUploadComplete }) => {
-  const [uploadedFiles, setUploadedFiles] = useState([]);
+  const { convexUserId } = useAuth();
+  const [pendingFiles, setPendingFiles] = useState([]);
   const [isProcessing, setIsProcessing] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState({});
+
+  // Convex mutations and queries
+  const generateUploadUrl = useMutation(api.documents.generateUploadUrl);
+  const uploadDocument = useMutation(api.documents.uploadDocument);
+  const deleteDocument = useMutation(api.documents.deleteDocument);
+  const savedDocuments = useQuery(
+    api.documents.getUserDocuments,
+    convexUserId ? { userId: convexUserId } : 'skip'
+  );
 
   const handleFileUpload = (files) => {
     const fileArray = Array.from(files);
-    setUploadedFiles([...uploadedFiles, ...fileArray]);
+    setPendingFiles([...pendingFiles, ...fileArray]);
   };
 
   const handleDragOver = (e) => {
@@ -30,20 +44,73 @@ const DocumentUpload = ({ onUploadComplete }) => {
   };
 
   const removeFile = (index) => {
-    setUploadedFiles(uploadedFiles.filter((_, i) => i !== index));
+    setPendingFiles(pendingFiles.filter((_, i) => i !== index));
   };
 
-  const handleProcess = () => {
+  const handleDeleteDocument = async (documentId) => {
+    try {
+      await deleteDocument({ documentId });
+    } catch (error) {
+      console.error('Failed to delete document:', error);
+    }
+  };
+
+  const handleProcess = async () => {
+    if (!convexUserId) {
+      console.error('User not logged in');
+      return;
+    }
+
     setIsProcessing(true);
-    // Simulate processing
-    setTimeout(() => {
-      setIsProcessing(false);
-      setShowModal(false);
-      setUploadedFiles([]);
-      if (onUploadComplete) {
-        onUploadComplete();
+    const uploadResults = [];
+
+    try {
+      for (let i = 0; i < pendingFiles.length; i++) {
+        const file = pendingFiles[i];
+        setUploadProgress(prev => ({ ...prev, [i]: 'uploading' }));
+
+        // Step 1: Get presigned upload URL
+        const uploadUrl = await generateUploadUrl();
+
+        // Step 2: Upload file to Convex Storage
+        const response = await fetch(uploadUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': file.type },
+          body: file,
+        });
+
+        if (!response.ok) {
+          throw new Error(`Upload failed for ${file.name}`);
+        }
+
+        const { storageId } = await response.json();
+
+        // Step 3: Save document metadata
+        await uploadDocument({
+          userId: convexUserId,
+          storageId,
+          fileName: file.name,
+          fileType: file.type,
+        });
+
+        setUploadProgress(prev => ({ ...prev, [i]: 'complete' }));
+        uploadResults.push({ fileName: file.name, success: true });
       }
-    }, 3000);
+
+      // All files uploaded successfully
+      setTimeout(() => {
+        setIsProcessing(false);
+        setShowModal(false);
+        setPendingFiles([]);
+        setUploadProgress({});
+        if (onUploadComplete) {
+          onUploadComplete();
+        }
+      }, 1000);
+    } catch (error) {
+      console.error('Upload error:', error);
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -178,15 +245,15 @@ const DocumentUpload = ({ onUploadComplete }) => {
                       </p>
                     </div>
 
-                    {/* Uploaded Files List */}
-                    {uploadedFiles.length > 0 && (
+                    {/* Pending Files List */}
+                    {pendingFiles.length > 0 && (
                       <div className="mt-6">
                         <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
                           <HiOutlineDocumentText size={20} />
-                          Uploaded Documents ({uploadedFiles.length})
+                          Files to Upload ({pendingFiles.length})
                         </h4>
                         <div className="space-y-2">
-                          {uploadedFiles.map((file, index) => (
+                          {pendingFiles.map((file, index) => (
                             <div
                               key={index}
                               className="flex items-center justify-between bg-gray-50 rounded-lg p-3"
@@ -205,6 +272,41 @@ const DocumentUpload = ({ onUploadComplete }) => {
                                 className="text-red-500 hover:text-red-700"
                               >
                                 <HiOutlineXMark size={20} />
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+
+                    {/* Previously Uploaded Documents */}
+                    {savedDocuments && savedDocuments.length > 0 && (
+                      <div className="mt-6">
+                        <h4 className="font-bold text-gray-900 mb-3 flex items-center gap-2">
+                          <HiOutlineCheckCircle className="text-green-500" size={20} />
+                          Your Documents ({savedDocuments.length})
+                        </h4>
+                        <div className="space-y-2">
+                          {savedDocuments.map((doc) => (
+                            <div
+                              key={doc._id}
+                              className="flex items-center justify-between bg-green-50 rounded-lg p-3"
+                            >
+                              <div className="flex items-center gap-3">
+                                <HiOutlineDocumentText className="text-green-600" size={20} />
+                                <div>
+                                  <p className="text-sm font-medium text-gray-900">{doc.fileName}</p>
+                                  <p className="text-xs text-gray-500">
+                                    Uploaded {new Date(doc.uploadedAt).toLocaleDateString()}
+                                  </p>
+                                </div>
+                              </div>
+                              <button
+                                onClick={() => handleDeleteDocument(doc._id)}
+                                className="text-red-500 hover:text-red-700 p-2"
+                                title="Delete document"
+                              >
+                                <HiOutlineTrash size={18} />
                               </button>
                             </div>
                           ))}
@@ -268,11 +370,11 @@ const DocumentUpload = ({ onUploadComplete }) => {
                   </button>
                   <Button
                     onClick={handleProcess}
-                    disabled={uploadedFiles.length === 0}
+                    disabled={pendingFiles.length === 0}
                     className="bg-gradient-to-r from-primary-gold to-yellow-500"
                   >
                     <HiOutlineSparkles className="mr-2" size={20} />
-                    Create My Student Card ({uploadedFiles.length} {uploadedFiles.length === 1 ? 'file' : 'files'})
+                    Upload {pendingFiles.length} {pendingFiles.length === 1 ? 'file' : 'files'}
                   </Button>
                 </div>
               )}

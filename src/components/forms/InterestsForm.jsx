@@ -73,10 +73,11 @@ const InterestsForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="specificProgramme" className="block text-sm font-semibold text-gray-700 mb-2">
           Specific Programme Interests
         </label>
         <input
+          id="specificProgramme"
           type="text"
           value={data.specificProgramme || ''}
           onChange={(e) => handleChange('specificProgramme', e.target.value)}
@@ -86,10 +87,11 @@ const InterestsForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="researchInterests" className="block text-sm font-semibold text-gray-700 mb-2">
           Research Interests (Optional)
         </label>
         <textarea
+          id="researchInterests"
           value={data.researchInterests || ''}
           onChange={(e) => handleChange('researchInterests', e.target.value)}
           placeholder="What specific topics or research areas fascinate you? This helps universities match you with relevant programmes and supervisors."
@@ -99,10 +101,11 @@ const InterestsForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="startDate" className="block text-sm font-semibold text-gray-700 mb-2">
           Preferred Start Date
         </label>
         <select
+          id="startDate"
           value={data.startDate || ''}
           onChange={(e) => handleChange('startDate', e.target.value)}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent"

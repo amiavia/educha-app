@@ -1,20 +1,48 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { profileSections, universities } from '../data/mockData';
-import { HiOutlineAcademicCap, HiOutlineCheckCircle, HiOutlineClock, HiOutlineSparkles, HiOutlineMagnifyingGlass, HiOutlineAdjustmentsHorizontal, HiOutlineXMark } from 'react-icons/hi2';
+import { profileSections as defaultProfileSections, universities } from '../data/mockData';
+import { useQuery, useMutation } from 'convex/react';
+import { api } from '../../convex/_generated/api';
+import { HiOutlineAcademicCap, HiOutlineCheckCircle, HiOutlineClock, HiOutlineSparkles, HiOutlineMagnifyingGlass, HiOutlineAdjustmentsHorizontal, HiOutlineXMark, HiOutlineClipboardDocumentList } from 'react-icons/hi2';
 import Button from '../components/ui/Button';
 import Card from '../components/ui/Card';
 import ProfileModal from '../components/modals/ProfileModal';
 import AdmissionsGuide from '../components/sections/AdmissionsGuide';
 import DocumentUpload from '../components/sections/DocumentUpload';
 import UniversityMatches from '../components/sections/UniversityMatches';
+import ApplicationTracker from '../components/sections/ApplicationTracker';
 
 const DashboardPage = () => {
-  const { user, logout } = useAuth();
+  const { user, logout, convexUserId } = useAuth();
   const [activeTab, setActiveTab] = useState('profile');
   const [selectedDegree, setSelectedDegree] = useState('bachelor');
   const [selectedSection, setSelectedSection] = useState(null);
-  const [sections, setSections] = useState(profileSections);
+  const [localSections, setLocalSections] = useState(defaultProfileSections);
+
+  // Convex queries and mutations
+  const savedSections = useQuery(
+    api.users.getProfileSections,
+    convexUserId ? { userId: convexUserId } : 'skip'
+  );
+  const updateProfileSection = useMutation(api.users.updateProfileSection);
+  const updateProfileCompletion = useMutation(api.users.updateProfileCompletion);
+
+  // Merge saved sections from Convex with default sections
+  const sections = useMemo(() => {
+    if (!savedSections) return localSections;
+
+    return defaultProfileSections.map(section => {
+      const saved = savedSections.find(s => s.sectionId === section.id);
+      if (saved) {
+        return {
+          ...section,
+          completed: saved.completed,
+          data: saved.data,
+        };
+      }
+      return section;
+    });
+  }, [savedSections, localSections]);
 
   // Search and filter state
   const [searchQuery, setSearchQuery] = useState('');
@@ -29,10 +57,60 @@ const DashboardPage = () => {
   const totalSections = sections.length;
   const completionPercentage = Math.round((completedSections / totalSections) * 100);
 
-  const handleSaveSection = (sectionId, data) => {
-    setSections(sections.map(s =>
+  // Section weights for profile completion calculation
+  const SECTION_WEIGHTS = {
+    personal: 10,
+    education: 20,
+    interests: 10,
+    achievements: 10,
+    experience: 10,
+    languages: 15,
+    statement: 25,
+  };
+
+  // Calculate weighted profile completion
+  const weightedCompletion = useMemo(() => {
+    return sections.reduce((total, section) => {
+      if (section.completed) {
+        return total + (SECTION_WEIGHTS[section.id] || 0);
+      }
+      return total;
+    }, 0);
+  }, [sections]);
+
+  // Update profile completion in Convex when sections change
+  useEffect(() => {
+    if (convexUserId && savedSections) {
+      updateProfileCompletion({
+        userId: convexUserId,
+        profileCompletion: weightedCompletion,
+      }).catch(err => console.error('Failed to update profile completion:', err));
+    }
+  }, [weightedCompletion, convexUserId, savedSections]);
+
+  const handleSaveSection = async (sectionId, data) => {
+    // Optimistic update for immediate UI feedback
+    setLocalSections(prev => prev.map(s =>
       s.id === sectionId ? { ...s, completed: true, data } : s
     ));
+
+    // Save to Convex if user is logged in
+    if (convexUserId) {
+      try {
+        await updateProfileSection({
+          userId: convexUserId,
+          sectionId,
+          completed: true,
+          data,
+        });
+      } catch (error) {
+        console.error('Failed to save section to Convex:', error);
+        // Revert optimistic update on error
+        setLocalSections(prev => prev.map(s =>
+          s.id === sectionId ? { ...s, completed: false, data: null } : s
+        ));
+      }
+    }
   };
 
   const handleOpenSection = (section) => {
@@ -40,12 +118,9 @@ const DashboardPage = () => {
   };
 
   const handleUploadComplete = () => {
-    // Simulate auto-filling some sections
-    setSections(sections.map(s =>
-      ['personal', 'education', 'languages'].includes(s.id)
-        ? { ...s, completed: true }
-        : s
-    ));
+    // Auto-filling is now handled through document parsing (Phase 2)
+    // For now, just refresh the sections from Convex
+    console.log('Document upload complete');
   };
 
   // Filter and search universities
@@ -165,6 +240,17 @@ const DashboardPage = () => {
             style={{ minHeight: '44px' }}
           >
             🎓 Explore Universities
+          </button>
+          <button
+            onClick={() => setActiveTab('applications')}
+            className={`px-4 sm:px-6 py-3 rounded-lg font-medium transition-all whitespace-nowrap text-sm sm:text-base ${
+              activeTab === 'applications'
+                ? 'bg-primary-blue text-white'
+                : 'bg-white text-gray-700 hover:bg-gray-50 active:bg-gray-100'
+            }`}
+            style={{ minHeight: '44px' }}
+          >
+            📋 Applications
           </button>
         </div>
 
@@ -507,6 +593,11 @@ const DashboardPage = () => {
               )}
             </div>
           </div>
+        )}
+
+        {/* Applications Tab */}
+        {activeTab === 'applications' && (
+          <ApplicationTracker />
         )}
       </div>
 

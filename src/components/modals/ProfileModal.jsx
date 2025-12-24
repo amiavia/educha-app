@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { HiOutlineXMark, HiOutlineCheckCircle } from 'react-icons/hi2';
 import Button from '../ui/Button';
 import PersonalInfoForm from '../forms/PersonalInfoForm';
@@ -10,8 +10,15 @@ import LanguagesForm from '../forms/LanguagesForm';
 import StatementForm from '../forms/StatementForm';
 
 const ProfileModal = ({ section, onClose, onSave }) => {
-  const [formData, setFormData] = useState({});
+  // Initialize formData with existing section data if available
+  const [formData, setFormData] = useState(section.data || {});
   const [currentStep, setCurrentStep] = useState(0);
+  const [isSaving, setIsSaving] = useState(false);
+
+  // Update formData if section.data changes (e.g., when editing different sections)
+  useEffect(() => {
+    setFormData(section.data || {});
+  }, [section.id, section.data]);
 
   const formComponents = {
     personal: PersonalInfoForm,
@@ -25,9 +32,15 @@ const ProfileModal = ({ section, onClose, onSave }) => {
 
   const FormComponent = formComponents[section.id];
 
-  const handleSave = () => {
-    onSave(section.id, formData);
-    onClose();
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      await onSave(section.id, formData);
+      onClose();
+    } catch (error) {
+      console.error('Failed to save section:', error);
+      setIsSaving(false);
+    }
   };
 
   const handleSkip = () => {
@@ -96,9 +109,19 @@ const ProfileModal = ({ section, onClose, onSave }) => {
                 onClick={handleSave}
                 className="flex-1 sm:flex-none text-sm sm:text-base py-2.5"
                 style={{ minHeight: '44px' }}
+                disabled={isSaving}
               >
-                <HiOutlineCheckCircle className="mr-2" size={18} className="sm:w-5 sm:h-5" />
-                Save & Continue
+                {isSaving ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                    Saving...
+                  </>
+                ) : (
+                  <>
+                    <HiOutlineCheckCircle className="mr-2 sm:w-5 sm:h-5" size={18} />
+                    Save & Continue
+                  </>
+                )}
               </Button>
             </div>
           </div>

@@ -14,10 +14,11 @@ const LanguagesForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="englishLevel" className="block text-sm font-semibold text-gray-700 mb-2">
           English Proficiency Level <span className="text-red-500">*</span>
         </label>
         <select
+          id="englishLevel"
           value={data.englishLevel || ''}
           onChange={(e) => handleChange('englishLevel', e.target.value)}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent"
@@ -38,8 +39,9 @@ const LanguagesForm = ({ data, onChange, completed }) => {
         <div className="space-y-3">
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs text-gray-600 mb-1">IELTS Overall</label>
+              <label htmlFor="ielts" className="block text-xs text-gray-600 mb-1">IELTS Overall</label>
               <input
+                id="ielts"
                 type="text"
                 value={data.ielts || ''}
                 onChange={(e) => handleChange('ielts', e.target.value)}
@@ -48,8 +50,9 @@ const LanguagesForm = ({ data, onChange, completed }) => {
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-600 mb-1">TOEFL iBT</label>
+              <label htmlFor="toefl" className="block text-xs text-gray-600 mb-1">TOEFL iBT</label>
               <input
+                id="toefl"
                 type="text"
                 value={data.toefl || ''}
                 onChange={(e) => handleChange('toefl', e.target.value)}
@@ -60,8 +63,9 @@ const LanguagesForm = ({ data, onChange, completed }) => {
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block text-xs text-gray-600 mb-1">Cambridge (CAE/CPE)</label>
+              <label htmlFor="cambridge" className="block text-xs text-gray-600 mb-1">Cambridge (CAE/CPE)</label>
               <input
+                id="cambridge"
                 type="text"
                 value={data.cambridge || ''}
                 onChange={(e) => handleChange('cambridge', e.target.value)}
@@ -70,8 +74,9 @@ const LanguagesForm = ({ data, onChange, completed }) => {
               />
             </div>
             <div>
-              <label className="block text-xs text-gray-600 mb-1">PTE Academic</label>
+              <label htmlFor="pte" className="block text-xs text-gray-600 mb-1">PTE Academic</label>
               <input
+                id="pte"
                 type="text"
                 value={data.pte || ''}
                 onChange={(e) => handleChange('pte', e.target.value)}
@@ -87,10 +92,11 @@ const LanguagesForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="nativeLanguage" className="block text-sm font-semibold text-gray-700 mb-2">
           Native Language
         </label>
         <input
+          id="nativeLanguage"
           type="text"
           value={data.nativeLanguage || ''}
           onChange={(e) => handleChange('nativeLanguage', e.target.value)}
@@ -100,10 +106,11 @@ const LanguagesForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="otherLanguages" className="block text-sm font-semibold text-gray-700 mb-2">
           Other Languages (Optional)
         </label>
         <textarea
+          id="otherLanguages"
           value={data.otherLanguages || ''}
           onChange={(e) => handleChange('otherLanguages', e.target.value)}
           placeholder="List any other languages you speak and your proficiency level (e.g., French - Intermediate, Spanish - Basic)"

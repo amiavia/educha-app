@@ -49,10 +49,11 @@ const AchievementsForm = ({ data, onChange, completed }) => {
 
             <div className="space-y-3">
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor={`title-${index}`} className="block text-sm font-semibold text-gray-700 mb-2">
                   Achievement Title
                 </label>
                 <input
+                  id={`title-${index}`}
                   type="text"
                   value={achievement.title}
                   onChange={(e) => updateAchievement(index, 'title', e.target.value)}
@@ -63,10 +64,11 @@ const AchievementsForm = ({ data, onChange, completed }) => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor={`year-${index}`} className="block text-sm font-semibold text-gray-700 mb-2">
                     Year
                   </label>
                   <select
+                    id={`year-${index}`}
                     value={achievement.year}
                     onChange={(e) => updateAchievement(index, 'year', e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent"
@@ -79,10 +81,11 @@ const AchievementsForm = ({ data, onChange, completed }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor={`category-${index}`} className="block text-sm font-semibold text-gray-700 mb-2">
                     Category
                   </label>
                   <select
+                    id={`category-${index}`}
                     value={achievement.category}
                     onChange={(e) => updateAchievement(index, 'category', e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent"
@@ -99,10 +102,11 @@ const AchievementsForm = ({ data, onChange, completed }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor={`description-${index}`} className="block text-sm font-semibold text-gray-700 mb-2">
                   Description
                 </label>
                 <textarea
+                  id={`description-${index}`}
                   value={achievement.description}
                   onChange={(e) => updateAchievement(index, 'description', e.target.value)}
                   placeholder="Briefly describe what you achieved and why it's significant"

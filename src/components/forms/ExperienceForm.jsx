@@ -50,10 +50,11 @@ const ExperienceForm = ({ data, onChange, completed }) => {
             <div className="space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor={`title-${index}`} className="block text-sm font-semibold text-gray-700 mb-2">
                     Role/Position
                   </label>
                   <input
+                    id={`title-${index}`}
                     type="text"
                     value={experience.title}
                     onChange={(e) => updateExperience(index, 'title', e.target.value)}
@@ -63,10 +64,11 @@ const ExperienceForm = ({ data, onChange, completed }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor={`organization-${index}`} className="block text-sm font-semibold text-gray-700 mb-2">
                     Organization/Company
                   </label>
                   <input
+                    id={`organization-${index}`}
                     type="text"
                     value={experience.organization}
                     onChange={(e) => updateExperience(index, 'organization', e.target.value)}
@@ -78,10 +80,11 @@ const ExperienceForm = ({ data, onChange, completed }) => {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor={`type-${index}`} className="block text-sm font-semibold text-gray-700 mb-2">
                     Type
                   </label>
                   <select
+                    id={`type-${index}`}
                     value={experience.type}
                     onChange={(e) => updateExperience(index, 'type', e.target.value)}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent"
@@ -96,10 +99,11 @@ const ExperienceForm = ({ data, onChange, completed }) => {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  <label htmlFor={`duration-${index}`} className="block text-sm font-semibold text-gray-700 mb-2">
                     Duration
                   </label>
                   <input
+                    id={`duration-${index}`}
                     type="text"
                     value={experience.duration}
                     onChange={(e) => updateExperience(index, 'duration', e.target.value)}
@@ -110,10 +114,11 @@ const ExperienceForm = ({ data, onChange, completed }) => {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                <label htmlFor={`description-${index}`} className="block text-sm font-semibold text-gray-700 mb-2">
                   Description & Key Responsibilities
                 </label>
                 <textarea
+                  id={`description-${index}`}
                   value={experience.description}
                   onChange={(e) => updateExperience(index, 'description', e.target.value)}
                   placeholder="What did you do? What did you learn? What impact did you make?"

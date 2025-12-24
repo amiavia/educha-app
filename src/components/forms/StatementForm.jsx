@@ -6,7 +6,8 @@ const StatementForm = ({ data, onChange, completed }) => {
   };
 
   const wordCount = (text) => {
-    return text ? text.trim().split(/\s+/).length : 0;
+    if (!text || !text.trim()) return 0;
+    return text.trim().split(/\s+/).length;
   };
 
   return (
@@ -18,10 +19,11 @@ const StatementForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="whyUK" className="block text-sm font-semibold text-gray-700 mb-2">
           Why do you want to study in the UK? <span className="text-red-500">*</span>
         </label>
         <textarea
+          id="whyUK"
           value={data.whyUK || ''}
           onChange={(e) => handleChange('whyUK', e.target.value)}
           placeholder="What attracts you to UK universities? Is it the academic excellence, specific programmes, research opportunities, or cultural experience?"
@@ -35,10 +37,11 @@ const StatementForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="careerGoals" className="block text-sm font-semibold text-gray-700 mb-2">
           What are your career goals? <span className="text-red-500">*</span>
         </label>
         <textarea
+          id="careerGoals"
           value={data.careerGoals || ''}
           onChange={(e) => handleChange('careerGoals', e.target.value)}
           placeholder="Where do you see yourself in 5-10 years? What impact do you want to make in your field? How will your degree help you achieve this?"
@@ -52,10 +55,11 @@ const StatementForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="uniqueQualities" className="block text-sm font-semibold text-gray-700 mb-2">
           What makes you unique? <span className="text-red-500">*</span>
         </label>
         <textarea
+          id="uniqueQualities"
           value={data.uniqueQualities || ''}
           onChange={(e) => handleChange('uniqueQualities', e.target.value)}
           placeholder="What experiences, perspectives, or qualities set you apart? This could be your background, challenges you've overcome, unique projects, or special skills."
@@ -69,10 +73,11 @@ const StatementForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="whyYou" className="block text-sm font-semibold text-gray-700 mb-2">
           Why should universities choose you? (Optional)
         </label>
         <textarea
+          id="whyYou"
           value={data.whyYou || ''}
           onChange={(e) => handleChange('whyYou', e.target.value)}
           placeholder="Sum up your strengths and why you'd be a great addition to their student community."

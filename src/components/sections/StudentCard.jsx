@@ -1,20 +1,100 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { HiOutlineCamera, HiOutlinePencil } from 'react-icons/hi2';
+import { useQuery, useMutation } from 'convex/react';
+import { api } from '../../../convex/_generated/api';
+import { useAuth } from '../../context/AuthContext';
 
 const StudentCard = () => {
+  const { user, convexUserId } = useAuth();
+  const [isUploading, setIsUploading] = useState(false);
+
+  // Fetch user data to get profilePhotoId
+  const convexUser = useQuery(
+    api.users.getUser,
+    convexUserId ? { userId: convexUserId } : 'skip'
+  );
+
+  // Fetch profile sections from Convex
+  const savedSections = useQuery(
+    api.users.getProfileSections,
+    convexUserId ? { userId: convexUserId } : 'skip'
+  );
+
+  // Fetch profile photo URL from storage
+  const profilePhotoUrl = useQuery(
+    api.documents.getFileUrl,
+    convexUser?.profilePhotoId ? { storageId: convexUser.profilePhotoId } : 'skip'
+  );
+
+  // Mutations for photo upload
+  const generateUploadUrl = useMutation(api.documents.generateUploadUrl);
+  const updateProfilePhoto = useMutation(api.users.updateProfilePhoto);
+
+  // Extract data from profile sections
+  const profileData = useMemo(() => {
+    if (!savedSections) return {};
+
+    const personal = savedSections.find(s => s.sectionId === 'personal')?.data || {};
+    const education = savedSections.find(s => s.sectionId === 'education')?.data || {};
+    const interests = savedSections.find(s => s.sectionId === 'interests')?.data || {};
+    const languages = savedSections.find(s => s.sectionId === 'languages')?.data || {};
+    const achievements = savedSections.find(s => s.sectionId === 'achievements')?.data || {};
+
+    return {
+      personal,
+      education,
+      interests,
+      languages,
+      achievements,
+    };
+  }, [savedSections]);
+
+  // Calculate age from date of birth
+  const calculateAge = (dateOfBirth) => {
+    if (!dateOfBirth) return null;
+    const today = new Date();
+    const birthDate = new Date(dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+      age--;
+    }
+    return age;
+  };
+
+  // Build student data from Convex + Clerk data
   const [studentData, setStudentData] = useState({
     photo: '/student-photo.png',
-    name: 'James Patel',
-    age: '18',
-    location: 'Mumbai, India',
-    email: 'james@educha.co.uk',
-    dreamUniversity: 'University of Oxford',
-    dreamSubject: 'Computer Science',
-    gpa: '3.8',
+    name: 'Complete Your Profile',
+    age: '--',
+    location: 'Not set',
+    email: 'Not set',
+    dreamUniversity: 'Not set',
+    dreamSubject: 'Not set',
+    gpa: '--',
     status: 'Active',
-    skills: ['JavaScript', 'Python', 'Design'],
+    skills: [],
     validUntil: '2026'
   });
+
+  // Update studentData when profile data changes
+  useEffect(() => {
+    const { personal, education, interests, languages, achievements } = profileData;
+
+    setStudentData(prev => ({
+      ...prev,
+      // Priority: Convex stored photo > Clerk imageUrl > default
+      photo: profilePhotoUrl || user?.imageUrl || prev.photo,
+      name: user?.fullName || personal?.fullName || prev.name,
+      age: calculateAge(personal?.dateOfBirth) || prev.age,
+      location: personal?.country ? `${personal.city || ''}, ${personal.country}`.replace(/^, /, '') : prev.location,
+      email: user?.email || personal?.email || prev.email,
+      dreamUniversity: interests?.dreamUniversity || prev.dreamUniversity,
+      dreamSubject: interests?.fieldOfStudy || interests?.subjects?.[0] || prev.dreamSubject,
+      gpa: education?.gpa || prev.gpa,
+      skills: achievements?.skills || languages?.languages || prev.skills,
+    }));
+  }, [profileData, user, profilePhotoUrl]);
 
   const [editing, setEditing] = useState(null);
   const [shimmer, setShimmer] = useState(false);
@@ -30,14 +110,39 @@ const StudentCard = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handlePhotoUpload = (e) => {
+  const handlePhotoUpload = async (e) => {
     const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setStudentData({ ...studentData, photo: reader.result });
-      };
-      reader.readAsDataURL(file);
+    if (!file || !convexUserId) return;
+
+    setIsUploading(true);
+    try {
+      // Step 1: Get presigned upload URL from Convex
+      const uploadUrl = await generateUploadUrl();
+
+      // Step 2: Upload file to Convex Storage
+      const response = await fetch(uploadUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': file.type },
+        body: file,
+      });
+
+      if (!response.ok) {
+        throw new Error('Upload failed');
+      }
+
+      const { storageId } = await response.json();
+
+      // Step 3: Save storage ID to user's profilePhotoId
+      await updateProfilePhoto({
+        userId: convexUserId,
+        profilePhotoId: storageId,
+      });
+
+      // The photo will automatically update via the profilePhotoUrl query
+    } catch (error) {
+      console.error('Failed to upload profile photo:', error);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -46,10 +151,13 @@ const StudentCard = () => {
     setEditing(null);
   };
 
-  const uniqueId = React.useMemo(() =>
-    `EDU-${Math.random().toString(36).substr(2, 6).toUpperCase()}`,
-    []
-  );
+  // Generate unique ID from Convex user ID
+  const uniqueId = useMemo(() => {
+    if (convexUserId) {
+      return `EDU-${convexUserId.slice(-6).toUpperCase()}`;
+    }
+    return `EDU-${Math.random().toString(36).substr(2, 6).toUpperCase()}`;
+  }, [convexUserId]);
 
   return (
     <div className="relative w-full">
@@ -91,7 +199,12 @@ const StudentCard = () => {
             {/* Photo - Responsive sizing */}
             <div className="relative shrink-0">
               <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 overflow-hidden flex items-center justify-center">
-                {studentData.photo ? (
+                {isUploading ? (
+                  <div className="text-white/60 text-center">
+                    <div className="w-8 h-8 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto mb-1"></div>
+                    <p className="text-xs">Uploading...</p>
+                  </div>
+                ) : studentData.photo && studentData.photo !== '/student-photo.png' ? (
                   <img src={studentData.photo} alt="Student" className="w-full h-full object-cover" />
                 ) : (
                   <div className="text-white/60 text-center">
@@ -101,8 +214,9 @@ const StudentCard = () => {
                 )}
               </div>
               <button
-                onClick={() => fileInputRef.current?.click()}
-                className="absolute -top-1.5 -right-1.5 bg-white text-slate-700 rounded-full p-2.5 sm:p-2 shadow-lg hover:scale-110 transition-transform active:scale-95"
+                onClick={() => !isUploading && fileInputRef.current?.click()}
+                disabled={isUploading}
+                className={`absolute -top-1.5 -right-1.5 bg-white text-slate-700 rounded-full p-2.5 sm:p-2 shadow-lg transition-transform ${isUploading ? 'opacity-50 cursor-not-allowed' : 'hover:scale-110 active:scale-95'}`}
                 style={{ minWidth: '44px', minHeight: '44px' }}
               >
                 <HiOutlineCamera size={16} className="sm:w-3.5 sm:h-3.5" />

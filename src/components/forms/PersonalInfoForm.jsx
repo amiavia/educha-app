@@ -14,10 +14,11 @@ const PersonalInfoForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="fullName" className="block text-sm font-semibold text-gray-700 mb-2">
           Full Name <span className="text-red-500">*</span>
         </label>
         <input
+          id="fullName"
           type="text"
           value={data.fullName || ''}
           onChange={(e) => handleChange('fullName', e.target.value)}
@@ -28,10 +29,11 @@ const PersonalInfoForm = ({ data, onChange, completed }) => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label htmlFor="dateOfBirth" className="block text-sm font-semibold text-gray-700 mb-2">
             Date of Birth <span className="text-red-500">*</span>
           </label>
           <input
+            id="dateOfBirth"
             type="date"
             value={data.dateOfBirth || ''}
             onChange={(e) => handleChange('dateOfBirth', e.target.value)}
@@ -40,10 +42,11 @@ const PersonalInfoForm = ({ data, onChange, completed }) => {
         </div>
 
         <div>
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
+          <label htmlFor="nationality" className="block text-sm font-semibold text-gray-700 mb-2">
             Nationality <span className="text-red-500">*</span>
           </label>
           <select
+            id="nationality"
             value={data.nationality || ''}
             onChange={(e) => handleChange('nationality', e.target.value)}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent"
@@ -60,10 +63,11 @@ const PersonalInfoForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
           Email Address <span className="text-red-500">*</span>
         </label>
         <input
+          id="email"
           type="email"
           value={data.email || ''}
           onChange={(e) => handleChange('email', e.target.value)}
@@ -73,10 +77,11 @@ const PersonalInfoForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="phone" className="block text-sm font-semibold text-gray-700 mb-2">
           Phone Number <span className="text-red-500">*</span>
         </label>
         <input
+          id="phone"
           type="tel"
           value={data.phone || ''}
           onChange={(e) => handleChange('phone', e.target.value)}
@@ -86,10 +91,11 @@ const PersonalInfoForm = ({ data, onChange, completed }) => {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-gray-700 mb-2">
+        <label htmlFor="country" className="block text-sm font-semibold text-gray-700 mb-2">
           Current Country of Residence
         </label>
         <select
+          id="country"
           value={data.country || ''}
           onChange={(e) => handleChange('country', e.target.value)}
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-blue focus:border-transparent"
